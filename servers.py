@@ -3,7 +3,7 @@
 
 from typing import Optional
 
-
+#Zrobię klasę Product (Maria)
 class Product:
     # FIXME: klasa powinna posiadać metodę inicjalizacyjną przyjmującą argumenty wyrażające nazwę produktu (typu str) i jego cenę (typu float) -- w takiej kolejności -- i ustawiającą atrybuty `name` (typu str) oraz `price` (typu float)
 
