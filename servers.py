@@ -62,7 +62,7 @@ class ListServer(Server):
         if len(lst) == 0:
             return []
 
-        if len(lst) >= self._n_max_returned_entries:
+        if len(lst) > self._n_max_returned_entries:
             raise TooManyProductsFoundError(self, len(lst), self._n_max_returned_entries)
 
         return sorted(lst, key=lambda product: product.price)
@@ -82,7 +82,7 @@ class MapServer(Server):
         if len(lst) == 0:
             return []
 
-        if len(lst) >= self._n_max_returned_entries:
+        if len(lst) > self._n_max_returned_entries:
             raise TooManyProductsFoundError(self, len(lst), self._n_max_returned_entries)
 
         return sorted(lst, key=lambda product: product.price)
