@@ -71,13 +71,11 @@ class ListServer(Server):
 class MapServer(Server):
     def __init__(self, products: list[Product]):
         super().__init__()
-        self.products = {}
-        for product in products:
-            products[product.name] = product
+        self.products = {product.name: product for product in products}
 
     def get_entries(self, n_letters: int) -> list[Product]:
         pattern = r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$'
-        lst = [product for name, product in self.products if re.fullmatch(pattern, name)]
+        lst = [product for name, product in self.products.items() if re.fullmatch(pattern, name)]
 
         if len(lst) == 0:
             return []
