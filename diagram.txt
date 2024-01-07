@@ -1,0 +1,62 @@
+@startuml
+
+class Product {
++ name: str
++ price: float
+
+- __init__(self, name: str, price: float): None
+- __eq__(self, other): bool
+- __hash__(self): int
+}
+
+abstract class Server {
+# n_max_return_entries: int = 3
+
+- __init__(self): None
++ {abstract} get_entries(self, n_letters: int): List[Product]
+}
+
+class ServerError {
+- __init__(self, server, msg = None): None
+}
+
+class TooManyProductsFoundError {
+- __init__(self, server, n_returned_elem, n_max): None
+}
+
+class ListServer {
+- products: List[Product]
+
+- __init__(self, products: List[Product]): None
++ get_entries(self, n_letters: int): List[Product]
+}
+
+class MapServer {
+- products: Dict[str, Product]
+
+- __init__(self, products: List[Product]): None
++ get_entries(self, n_letters: int): List[Product]
+}
+
+
+class Client {
+- server: Server
+
+- __init__(self, server: Server): None
++ get_total_price(self, n_letters: Optional[int]): Optional[float]
+}
+
+Product "*"--* "1" ListServer
+Product "*"--* "1" MapServer
+Product ..> ValueError : <<throws>>
+
+ListServer --|> Server
+MapServer --|> Server
+
+Server --o Client
+Server ..> TooManyProductsFoundError : << throws >>
+Server ..> NotImplementedError : << throws >>
+
+TooManyProductsFoundError --|> ServerError
+ServerError --|> Expection
+@enduml
