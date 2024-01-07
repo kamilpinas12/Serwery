@@ -4,22 +4,22 @@
 from typing import Optional
 from abc import ABC, abstractmethod
 import re
+import string
 
 
 
-
-#Zrobię klasę Product (Maria)
+#Gotowe (Maria)
 class Product:
     # FIXME: klasa powinna posiadać metodę inicjalizacyjną przyjmującą argumenty wyrażające nazwę produktu (typu str) i jego cenę (typu float) -- w takiej kolejności -- i ustawiającą atrybuty `name` (typu str) oraz `price` (typu float)
-
-    # wiem że nie ja to miałem pisać ale dodaje żeby mi błędu nie pokazywało jak się będę do name i price odwoływał
-    def __init__(self, name, price):
-        self.name = name
-        self.price = price
-
+    def __init__(self, name: string, price: float):
+        if re.fullmatch("^[a-zA-Z]+\\d+$", name):
+            self.name = name
+            self.price = price
+        else:
+            raise ValueError
 
     def __eq__(self, other):
-        return None  # FIXME: zwróć odpowiednią wartość
+        return (self.name == other.name) and (self.price == other.price)  # FIXME: zwróć odpowiednią wartość
 
     def __hash__(self):
         return hash((self.name, self.price))
