@@ -66,6 +66,14 @@ class ClientTest(unittest.TestCase):
             server = server_type(products)
             client = Client(server)
             self.assertEqual(5, client.get_total_price(2))
+        products = [Product('PP234', 2), Product('PP235', 3), Product('PPP235', 3),
+                    Product('P234', 5), Product('P123', 2.2)]
+        for server_type in server_types:
+            server = server_type(products)
+            client = Client(server)
+            self.assertEqual(5, client.get_total_price(2))
+            self.assertEqual(7.2, client.get_total_price(1))
+            self.assertEqual(3, client.get_total_price(3))
 
 
 if __name__ == '__main__':
