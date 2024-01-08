@@ -54,11 +54,11 @@ class TooManyProductsFoundError(ServerError):
 class ListServer(Server):
     def __init__(self, products: list[Product]):
         super().__init__()
-        self.products = products
+        self.__products = products
 
     def get_entries(self, n_letters: int) -> list[Product]:
         pattern = r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$'
-        lst = [product for product in self.products if re.fullmatch(pattern, product.name)]
+        lst = [product for product in self.__products if re.fullmatch(pattern, product.name)]
 
         if len(lst) == 0:
             return []
@@ -72,11 +72,11 @@ class ListServer(Server):
 class MapServer(Server):
     def __init__(self, products: list[Product]):
         super().__init__()
-        self.products = {product.name: product for product in products}
+        self.__products = {product.name: product for product in products}
 
     def get_entries(self, n_letters: int) -> list[Product]:
         pattern = r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$'
-        lst = [product for name, product in self.products.items() if re.fullmatch(pattern, name)]
+        lst = [product for name, product in self.__products.items() if re.fullmatch(pattern, name)]
 
         if len(lst) == 0:
             return []
@@ -91,13 +91,12 @@ HelperType = TypeVar('HelperType', bound=Server)
 
 
 class Client:
-    # FIXME: klasa powinna posiadać metodę inicjalizacyjną przyjmującą obiekt reprezentujący serwer
     def __init__(self, server: HelperType):
-        self.server = server
+        self.__server = server
 
     def get_total_price(self, n_letters: Optional[int]) -> Optional[float]:
         try:
-            p = self.server.get_entries(n_letters)
+            p = self.__server.get_entries(n_letters)
         except TooManyProductsFoundError:
             return None
 
