@@ -7,8 +7,7 @@ import re
 import string
 
 
-
-#Gotowe (Maria)
+# Gotowe (Maria)
 class Product:
     # FIXME: klasa powinna posiadać metodę inicjalizacyjną przyjmującą argumenty wyrażające nazwę produktu (typu str) i jego cenę (typu float) -- w takiej kolejności -- i ustawiającą atrybuty `name` (typu str) oraz `price` (typu float)
     def __init__(self, name: string, price: float):
@@ -26,8 +25,10 @@ class Product:
 
 
 class Server(ABC):
+    _n_max_returned_entries = 3
+
     def __init__(self):
-        self._n_max_returned_entries = 3
+        pass
 
     @abstractmethod
     def get_entries(self, n_letters: int) -> list[Product]:
@@ -104,5 +105,3 @@ class Client:
             return sum([x.price for x in p])
         else:
             return None
-
-
