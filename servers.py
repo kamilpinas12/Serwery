@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from typing import Optional
+from typing import Optional, TypeVar
 from abc import ABC, abstractmethod
 import re
 import string
@@ -86,8 +86,16 @@ class MapServer(Server):
         return sorted(lst, key=lambda product: product.price)
 
 
+HelperType = TypeVar('HelperType', bound=Server)
+
+
 class Client:
     # FIXME: klasa powinna posiadać metodę inicjalizacyjną przyjmującą obiekt reprezentujący serwer
+    def __init__(self, server: HelperType):
+        self.server = server
 
     def get_total_price(self, n_letters: Optional[int]) -> Optional[float]:
-        raise NotImplementedError()
+        try:
+            return sum([x.price for x in self.server.get_entries(n_letters)])
+        except ValueError:
+            return None
